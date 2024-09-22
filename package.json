@@ -1,0 +1,46 @@
+{
+  "name": "essentials",
+  "version": "1.0.0",
+  "license": "ISC",
+  "description": "",
+  "scripts": {
+    "env:reset": "rm -rf packages/*/lib && rm -rf packages/*/dist && rm -rf packages/*/node_modules && rm -rf node_modules && rm -rf .nx || rm -rf node_modules && rm -rf package-lock.json && rm -rf .nx && npm i && npm run build",
+    "versioning": "lerna version --json --yes --conventional-commits -m \"chore(release): publish %v\"",
+    "build": "lerna run build",
+    "build:clean": "lerna run build:clean",
+    "lint": "eslint ./packages/**/*.ts",
+    "lint:fix": "eslint ./packages/**/*.ts --fix",
+    "docs:build": "lerna run docs:build",
+    "dependencies-graph": "nx graph",
+    "prepare": "husky install",
+    "publish": "lerna publish from-package --yes --summary-file",
+    "install:source": "npm install && sh raplace-symlink.sh node_modules/@essentials"
+  },
+  "private": true,
+  "devDependencies": {
+    "@commitlint/cli": "^18.2.0",
+    "@commitlint/config-conventional": "^18.1.0",
+    "@types/js-yaml": "^4.0.5",
+    "@types/jsonwebtoken": "^9.0.2",
+    "@types/node": "^20.8.10",
+    "@types/pg": "^8.6.6",
+    "@typescript-eslint/eslint-plugin": "^6.16.0",
+    "@typescript-eslint/parser": "^6.16.0",
+    "eslint": "^8.56.0",
+    "eslint-config-love": "^62.0.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^16.6.0",
+    "eslint-plugin-prettier": "^5.1.2",
+    "eslint-plugin-promise": "^6.1.1",
+    "husky": "^8.0.3",
+    "lerna": "^8.0.1",
+    "nx": "^17.2.8",
+    "nx-cloud": "^19.0.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
+}

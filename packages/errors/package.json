@@ -1,0 +1,24 @@
+{
+  "name": "@essentials/errors",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "main": "lib/main.js",
+  "types": "lib/main.d.ts",
+  "directories": {
+    "lib": "lib",
+    "test": "tests"
+  },
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build:clean": "rimraf lib",
+    "build": "tsc",
+    "prepublish": "npm run build",
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies": {
+    "@essentials/common": "^1.0.0"
+  }
+}

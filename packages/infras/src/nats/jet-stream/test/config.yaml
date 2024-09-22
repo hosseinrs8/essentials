@@ -1,0 +1,10 @@
+nats-identity-general:
+  urls:
+    - '0.0.0.0:4222'
+
+logs:
+  enabled: true
+  level: 'silly'
+  consoleEnabled: true
+  consolePrettyEnabled: true
+  fileEnabled: false

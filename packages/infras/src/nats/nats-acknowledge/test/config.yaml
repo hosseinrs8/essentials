@@ -1,0 +1,10 @@
+nats-identity-test:
+  urls:
+    - '0.0.0.0:4222'
+
+logs:
+  enabled: true
+  level: debug
+  consoleEnabled: true
+  consolePrettyEnabled: true
+  fileEnabled: false

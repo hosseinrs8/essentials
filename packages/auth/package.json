@@ -1,0 +1,30 @@
+{
+  "name": "@essentials/auth",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "main": "lib/main.js",
+  "types": "lib/main.d.ts",
+  "directories": {
+    "lib": "lib",
+    "test": "tests"
+  },
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build:clean": "rimraf lib",
+    "build": "tsc",
+    "prepublish": "npm run build",
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies": {
+    "@redis/client": "^1.5.13",
+    "@essentials/common": "^1.0.0",
+    "@essentials/infras": "^1.0.0",
+    "@essentials/http": "^1.0.0",
+    "@essentials/errors": "^1.0.0",
+    "jsonwebtoken": "^9.0.0",
+    "nats": "^2.7.1"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "name": "@essentials/http",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "main": "lib/main.js",
+  "types": "lib/main.d.ts",
+  "directories": {
+    "lib": "lib",
+    "test": "tests"
+  },
+  "files": [
+    "migrations",
+    "lib"
+  ],
+  "scripts": {
+    "build:clean": "rimraf lib",
+    "build": "tsc",
+    "prepublish": "npm run build",
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies": {
+    "@essentials/common": "^1.0.0",
+    "@essentials/infras": "^1.0.0",
+    "@essentials/errors": "^1.0.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.0",
+    "reflect-metadata": "^0.1.13",
+    "uWebSockets.js": "git+https://github.com/uNetworking/uWebSockets.js.git#v20.48.0"
+  }
+}

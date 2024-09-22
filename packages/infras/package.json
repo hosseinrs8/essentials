@@ -1,0 +1,44 @@
+{
+  "name": "@essentials/infras",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "main": "lib/main.js",
+  "types": "lib/main.d.ts",
+  "directories": {
+    "lib": "lib",
+    "test": "tests"
+  },
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build:clean": "rimraf lib",
+    "build": "tsc",
+    "prepublish": "npm run build",
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "dependencies": {
+    "@aws-sdk/client-ses": "^3.95.0",
+    "@essentials/common": "^1.0.0",
+    "@essentials/errors": "^1.0.0",
+    "bee-queue": "^1.5.0",
+    "reflect-metadata": "^0.1.13"
+  },
+  "peerDependencies": {
+    "@aws-sdk/client-dynamodb": "^3.385.0",
+    "@aws-sdk/client-s3": "^3.41.0",
+    "@aws-sdk/client-timestream-query": "^3.385.0",
+    "@aws-sdk/client-timestream-write": "^3.385.0",
+    "@elastic/elasticsearch": "^8.1.0",
+    "@grpc/grpc-js": "^1.10.10",
+    "@grpc/proto-loader": "^0.7.13",
+    "@msgpack/msgpack": "^2.8.0",
+    "@redis/client": "^1.5.13",
+    "@types/msgpack": "^0.0.31",
+    "file-type": "^16.5.4",
+    "nats": "^2.6.1",
+    "pg": "^8.7.3"
+  },
+  "private": true
+}
