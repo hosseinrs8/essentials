@@ -4,7 +4,10 @@ import { ControllerType, NatsCodec } from '../../nats-service-manager';
 import { NatsCodecType } from '../../nats-service.decorator';
 import { JetStreamFactory } from '../jet-stream.factory';
 import { JetStreamClient, JetStreamOptions } from '../client/jet-stream.client';
-import { JetStreamUtility } from '../client/jet-stream.utility';
+import {
+  JetStreamMessage,
+  JetStreamUtility,
+} from '../client/jet-stream.utility';
 import { randomUUID } from 'crypto';
 
 interface MethodConfig {
@@ -85,7 +88,7 @@ export class JetStreamServiceManager {
       const consumerName = [subject, randomUUID()].join('-');
       const consumer = await JetStreamUtility.createOrUpdateConsumer(
         client.manager,
-        subject,
+        stream.name,
         {
           ...options,
           name: consumerName,
@@ -101,7 +104,10 @@ export class JetStreamServiceManager {
             continue;
         }
         message.ack();
-        callback(codec.decode(message.data), message);
+        callback(
+          (codec.decode(message.data) as JetStreamMessage<any>)._payload,
+          message,
+        );
       }
     });
   }

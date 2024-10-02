@@ -2,6 +2,11 @@ import { Consumer, JetStreamManager, NatsError, Stream } from 'nats';
 import { StreamConfig } from 'nats/lib/jetstream/jsapi_types';
 import { UnprocessableEntity } from '@essentials/errors';
 
+export interface JetStreamMessage<T> {
+  _payload: T;
+  _reply?: string;
+}
+
 export class JetStreamUtility {
   static async createOrUpdateStream(
     manager: JetStreamManager,

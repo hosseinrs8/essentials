@@ -8,9 +8,11 @@ import {
   Codec,
   JSONCodec,
 } from 'nats';
-import { JetStreamUtility } from './jet-stream.utility';
+import { JetStreamMessage, JetStreamUtility } from './jet-stream.utility';
 import { StreamConfig } from 'nats/lib/jetstream/jsapi_types';
 import { NatsClient } from '../../nats.factory';
+import { randomUUID } from 'crypto';
+import { RequestTimeOut } from '@essentials/errors';
 
 export type JetStreamOptions = Partial<StreamConfig> & {
   subjects?: Array<string>;
@@ -85,7 +87,55 @@ export class JetStreamClient {
   ): Promise<PubAck> {
     const codec = opts?.codec ?? this.codec;
     this.logger.debug('publish jetStream message', { subject });
-    const encoded = codec.encode(payload);
+    const encoded = codec.encode({ _payload: payload });
     return this.connection.jetstream().publish(subject, encoded);
+  }
+
+  async request<T = any, R = any>(
+    subject: string,
+    payload: T,
+    opts?: { codec?: Codec<unknown>; timeout?: number },
+  ): Promise<R> {
+    const codec = opts?.codec ?? this.codec;
+    this.logger.debug('publish jetStream message', { subject });
+    const message: JetStreamMessage<T> = {
+      _payload: payload,
+      _reply: randomUUID(),
+    };
+    const encoded = codec.encode(message);
+    await this.connection.jetstream().publish(subject, encoded);
+
+    const stream = await JetStreamUtility.createOrUpdateStream(this.manager, {
+      subjects: [message._reply!],
+      name: message._reply!,
+    });
+    const consumerName = [message._reply!, randomUUID()].join('-');
+    const consumer = await JetStreamUtility.createOrUpdateConsumer(
+      this.manager,
+      stream.name,
+      {
+        name: consumerName,
+      },
+    );
+    return new Promise(async (resolve, reject) => {
+      setTimeout(() => {
+        this.removeListener(stream.name, consumerName).catch((e) =>
+          this.logger.error('failed to stop listeners', { error: e }),
+        );
+        return reject(new RequestTimeOut());
+      }, opts?.timeout ?? 1_000);
+      for await (const message of await consumer.consume()) {
+        message.ack();
+        this.removeListener(stream.name, consumerName).catch((e) =>
+          this.logger.error('failed to stop listeners', { error: e }),
+        );
+        return resolve(codec.decode(message.data) as R);
+      }
+    });
+  }
+
+  private async removeListener(streamName: string, consumerName: string) {
+    await this.manager.consumers.delete(streamName, consumerName);
+    await this.manager.streams.delete(streamName);
   }
 }

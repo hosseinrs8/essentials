@@ -10,6 +10,7 @@ export class Listener {
   listen(data: any, msg: JsMsg) {
     console.log('got test-sub');
     console.dir(data, { depth: 10 });
+    msg.ack();
     // console.dir(msg, { depth: 10 });
   }
 
