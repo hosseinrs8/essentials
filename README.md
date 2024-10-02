@@ -1,6 +1,6 @@
 # essentials
 
-A mono-repo structured development framework consisting of the following packages
+A mono-repo structured Node development framework consisting of the following packages
 
 - Auth
   - HTTP authentication middlewares
